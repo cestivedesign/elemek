@@ -1,0 +1,101 @@
+/* ════════════════════════════════════════════════
+   BUTTONS — 6 variants
+   ════════════════════════════════════════════════ */
+
+.btn-preview { display: flex; flex-direction: column; gap: 10px; align-items: center; justify-content: center; }
+
+/* BT-01 · Gradient shift */
+.bt-01 {
+  padding: 12px 24px; border-radius: 999px; border: none;
+  color: #000; font-family: var(--font-mono); font-size: 11px;
+  text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2), var(--a-rose));
+  background-size: 200% 200%; background-position: 0% 0%;
+  transition: background-position .6s var(--ease-out), transform .2s;
+  cursor: pointer;
+}
+.bt-01:hover { background-position: 100% 100%; transform: translateY(-2px); }
+
+/* BT-02 · Magnetic shine */
+.bt-02 {
+  padding: 12px 22px; border-radius: 10px; position: relative;
+  background: var(--bg-2); border: 1px solid var(--glass-border);
+  color: var(--fg-0); font-family: var(--font-mono); font-size: 11px;
+  text-transform: uppercase; letter-spacing: 0.12em; cursor: pointer;
+  overflow: hidden;
+}
+.bt-02::before {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(105deg, transparent 40%, oklch(1 0 0 / 0.25) 50%, transparent 60%);
+  transform: translateX(-100%);
+  transition: transform .6s var(--ease-out);
+}
+.bt-02:hover::before { transform: translateX(100%); }
+
+/* BT-03 · Border draw */
+.bt-03 {
+  padding: 12px 22px; background: transparent;
+  color: var(--fg-0); font-family: var(--font-mono); font-size: 11px;
+  text-transform: uppercase; letter-spacing: 0.12em; cursor: pointer;
+  position: relative; border: none;
+}
+.bt-03 svg {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  pointer-events: none;
+}
+.bt-03 svg rect {
+  fill: none; stroke: var(--accent); stroke-width: 1;
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  transition: stroke-dashoffset .6s var(--ease-out);
+}
+.bt-03:hover svg rect { stroke-dashoffset: 0; }
+
+/* BT-04 · Icon slide */
+.bt-04 {
+  padding: 12px 20px; border-radius: 10px;
+  background: var(--accent); color: #000; border: none;
+  font-family: var(--font-mono); font-size: 11px;
+  text-transform: uppercase; letter-spacing: 0.12em; cursor: pointer;
+  display: flex; align-items: center; gap: 10px;
+  overflow: hidden; position: relative;
+}
+.bt-04 .arr {
+  transition: transform .35s var(--ease-spring);
+  display: inline-block;
+}
+.bt-04:hover .arr { transform: translateX(6px); }
+.bt-04 .txt { transition: transform .3s var(--ease-out); display: inline-block; }
+.bt-04:hover .txt { transform: translateX(-2px); }
+
+/* BT-05 · 3D press */
+.bt-05 {
+  padding: 12px 22px; border-radius: 12px; border: none;
+  font-family: var(--font-mono); font-size: 11px;
+  text-transform: uppercase; letter-spacing: 0.12em; color: #000; font-weight: 600;
+  background: var(--accent);
+  box-shadow: 0 6px 0 oklch(0.45 0.18 290), 0 10px 20px oklch(0.45 0.18 290 / 0.4);
+  transition: transform .15s, box-shadow .15s;
+  cursor: pointer;
+}
+.bt-05:hover { transform: translateY(2px); box-shadow: 0 4px 0 oklch(0.45 0.18 290), 0 6px 10px oklch(0.45 0.18 290 / 0.4); }
+.bt-05:active { transform: translateY(6px); box-shadow: 0 0 0 oklch(0.45 0.18 290); }
+
+/* BT-06 · Liquid fill */
+.bt-06 {
+  padding: 12px 24px; border-radius: 10px;
+  background: transparent; border: 1px solid var(--accent);
+  color: var(--accent); font-family: var(--font-mono); font-size: 11px;
+  text-transform: uppercase; letter-spacing: 0.12em; cursor: pointer;
+  position: relative; overflow: hidden; z-index: 0;
+  transition: color .35s var(--ease-out);
+}
+.bt-06::before {
+  content: ""; position: absolute; inset: auto 0 -100% 0; height: 300%;
+  background: var(--accent);
+  border-radius: 50% 50% 0 0;
+  transition: bottom .5s var(--ease-out);
+  z-index: -1;
+}
+.bt-06:hover { color: #000; }
+.bt-06:hover::before { bottom: -50%; }

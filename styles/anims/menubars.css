@@ -1,0 +1,104 @@
+/* ════════════════════════════════════════════════
+   MENUBARS — 6 variants
+   ════════════════════════════════════════════════ */
+
+.mb-stage { width: 95%; display: flex; justify-content: center; }
+
+/* MB-01 · Pill indicator */
+.mb-01 { display: flex; gap: 4px; padding: 5px; background: var(--glass-strong);
+  border: 1px solid var(--glass-border); border-radius: 999px;
+  backdrop-filter: blur(16px); position: relative; }
+.mb-01 a { padding: 7px 14px; font-size: 11px; color: var(--fg-1);
+  border-radius: 999px; cursor: pointer; position: relative; z-index: 2;
+  transition: color .3s; font-family: var(--font-mono); }
+.mb-01 a.active { color: #000; }
+.mb-01 .pill {
+  position: absolute; top: 5px; bottom: 5px; border-radius: 999px;
+  background: var(--accent);
+  transition: left .45s var(--ease-spring), width .45s var(--ease-spring);
+  z-index: 1;
+}
+
+/* MB-02 · Underline draw */
+.mb-02 { display: flex; gap: 24px; border-bottom: 1px solid var(--line);
+  padding: 0 8px; position: relative; }
+.mb-02 a { padding: 14px 4px; font-size: 12px; color: var(--fg-1);
+  cursor: pointer; position: relative; font-family: var(--font-mono); }
+.mb-02 a.active { color: var(--fg-0); }
+.mb-02 .underline {
+  position: absolute; bottom: -1px; height: 2px;
+  background: var(--accent);
+  transition: left .45s var(--ease-spring), width .45s var(--ease-spring);
+  box-shadow: 0 0 12px var(--accent);
+}
+
+/* MB-03 · Glass dock with magnify */
+.mb-03 { display: flex; gap: 6px; padding: 8px; background: oklch(1 0 0 / 0.04);
+  border: 1px solid var(--glass-border); border-radius: 16px;
+  backdrop-filter: blur(20px); align-items: flex-end; }
+.mb-03 .dock-i {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: linear-gradient(135deg, oklch(0.3 0.05 290), oklch(0.2 0.03 260));
+  border: 1px solid var(--glass-border);
+  transition: transform .3s var(--ease-spring);
+  display: grid; place-items: center; cursor: pointer;
+  font-family: var(--font-mono); font-size: 10px; color: var(--fg-1);
+}
+.mb-03 .dock-i:hover { transform: translateY(-10px) scale(1.3); }
+.mb-03 .dock-i:hover + .dock-i,
+.mb-03 .dock-i:has(+ .dock-i:hover) { transform: translateY(-4px) scale(1.1); }
+
+/* MB-04 · Liquid morph */
+.mb-04 { display: flex; gap: 2px; background: var(--glass); border-radius: 12px;
+  padding: 4px; border: 1px solid var(--glass-border); position: relative; }
+.mb-04 a { padding: 8px 14px; font-size: 11px; color: var(--fg-1);
+  cursor: pointer; position: relative; z-index: 2; border-radius: 8px;
+  font-family: var(--font-mono); transition: color .3s; }
+.mb-04 a.active { color: var(--fg-0); }
+.mb-04 .blob {
+  position: absolute; top: 4px; bottom: 4px; border-radius: 8px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  transition: left .5s var(--ease-spring), width .5s var(--ease-spring),
+              transform .3s, border-radius .5s;
+  filter: blur(0.5px);
+}
+
+/* MB-05 · Side indicator (vertical) */
+.mb-05 { display: flex; flex-direction: column; gap: 2px; padding: 8px;
+  background: var(--glass); border-radius: 14px;
+  border: 1px solid var(--glass-border); position: relative; }
+.mb-05 a { padding: 9px 16px 9px 18px; font-size: 11px; color: var(--fg-1);
+  cursor: pointer; font-family: var(--font-mono); position: relative; z-index: 2;
+  transition: color .3s; }
+.mb-05 a.active { color: var(--fg-0); }
+.mb-05 .tick {
+  position: absolute; left: 8px; width: 3px; border-radius: 2px;
+  background: var(--accent);
+  transition: top .4s var(--ease-spring), height .3s;
+  box-shadow: 0 0 10px var(--accent);
+}
+
+/* MB-06 · Mega reveal trigger */
+.mb-06 { display: flex; gap: 20px; padding: 14px 20px;
+  background: var(--glass); border-radius: 14px;
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(16px); }
+.mb-06 a {
+  font-size: 12px; color: var(--fg-1); font-family: var(--font-mono);
+  cursor: pointer; position: relative; padding-bottom: 2px;
+}
+.mb-06 a::after {
+  content: ""; position: absolute; left: 0; bottom: -2px;
+  height: 1px; width: 0;
+  background: currentColor;
+  transition: width .3s var(--ease-out);
+}
+.mb-06 a:hover { color: var(--fg-0); }
+.mb-06 a:hover::after { width: 100%; }
+.mb-06 a::before {
+  content: attr(data-n); position: absolute; left: 0; top: -10px;
+  font-size: 8px; color: var(--fg-3);
+  opacity: 0; transform: translateY(4px);
+  transition: opacity .3s, transform .3s;
+}
+.mb-06 a:hover::before { opacity: 1; transform: translateY(0); }

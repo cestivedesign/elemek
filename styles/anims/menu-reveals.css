@@ -1,0 +1,147 @@
+/* ════════════════════════════════════════════════
+   MENU REVEALS — 6 variants (what appears in a menu item)
+   ════════════════════════════════════════════════ */
+
+/* MR-01 · Image peek */
+.mr-01 { width: 90%; height: 85%; display: flex; gap: 12px; }
+.mr-01 .items { flex: 1; display: flex; flex-direction: column; gap: 2px;
+  border-right: 1px solid var(--line); padding-right: 12px; }
+.mr-01 .item { padding: 10px 4px; font-size: 11px; color: var(--fg-1);
+  cursor: pointer; font-family: var(--font-mono);
+  border-radius: 6px; transition: background .2s, color .2s; }
+.mr-01 .item:hover, .mr-01 .item.active { background: var(--glass); color: var(--fg-0); }
+.mr-01 .preview {
+  flex: 1.5; border-radius: 10px; overflow: hidden; position: relative;
+  background: linear-gradient(135deg, oklch(0.22 0.06 290), oklch(0.18 0.04 220));
+}
+.mr-01 .preview::after {
+  content: ""; position: absolute; inset: 0;
+  background: repeating-linear-gradient(45deg,
+    transparent 0 10px, oklch(0 0 0 / 0.1) 10px 20px);
+}
+.mr-01 .p-label { position: absolute; left: 12px; bottom: 10px; right: 12px;
+  font-family: var(--font-mono); font-size: 9px; color: var(--fg-1);
+  z-index: 2; }
+
+/* MR-02 · Quote fade */
+.mr-02 { width: 90%; display: flex; flex-direction: column; gap: 10px; }
+.mr-02 .q {
+  padding: 14px; border-radius: 10px;
+  background: var(--glass); border: 1px solid var(--glass-border);
+  position: relative; overflow: hidden;
+  animation: mr02-cycle 9s infinite;
+  opacity: 0;
+}
+.mr-02 .q:nth-child(1) { animation-delay: 0s; }
+.mr-02 .q:nth-child(2) { animation-delay: 3s; }
+.mr-02 .q:nth-child(3) { animation-delay: 6s; }
+@keyframes mr02-cycle {
+  0%, 30% { opacity: 1; transform: translateY(0); }
+  35%, 100% { opacity: 0; transform: translateY(-8px); }
+}
+.mr-02 .q-text { font-size: 12px; line-height: 1.4; color: var(--fg-0); }
+.mr-02 .q-who { font-family: var(--font-mono); font-size: 9px; color: var(--fg-2); margin-top: 6px; }
+
+/* MR-03 · Icon + label row */
+.mr-03 { width: 90%; display: flex; flex-direction: column; gap: 3px; padding: 8px;
+  background: var(--glass); border: 1px solid var(--glass-border); border-radius: 12px; }
+.mr-03 .row {
+  display: flex; align-items: center; gap: 10px; padding: 8px 10px;
+  border-radius: 8px; cursor: pointer; transition: background .2s;
+  transform: translateX(-8px); opacity: 0;
+  animation: mr03-in .4s var(--ease-out) forwards;
+}
+.mr-03 .row:nth-child(1) { animation-delay: 0.1s; }
+.mr-03 .row:nth-child(2) { animation-delay: 0.18s; }
+.mr-03 .row:nth-child(3) { animation-delay: 0.26s; }
+.mr-03 .row:nth-child(4) { animation-delay: 0.34s; }
+@keyframes mr03-in { to { transform: translateX(0); opacity: 1; } }
+.mr-03 .row:hover { background: var(--glass-strong); }
+.mr-03 .ic {
+  width: 24px; height: 24px; border-radius: 6px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  display: grid; place-items: center;
+  font-family: var(--font-mono); font-size: 10px; color: #000; font-weight: 600;
+}
+.mr-03 .r-text { font-size: 11px; color: var(--fg-0); }
+.mr-03 .r-sub { font-family: var(--font-mono); font-size: 9px; color: var(--fg-2); }
+
+/* MR-04 · Video loop tile */
+.mr-04 { width: 80%; aspect-ratio: 16/10; border-radius: 12px; overflow: hidden;
+  position: relative; border: 1px solid var(--glass-border); }
+.mr-04 .v {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, oklch(0.25 0.1 290), oklch(0.15 0.05 220));
+}
+.mr-04 .v::before {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, oklch(1 0 0 / 0.1), transparent);
+  animation: mr04-shine 3s linear infinite;
+}
+.mr-04 .v::after {
+  content: ""; position: absolute; inset: 0;
+  background-image:
+    repeating-linear-gradient(90deg, transparent 0 50px, oklch(0 0 0 / 0.1) 50px 51px);
+}
+@keyframes mr04-shine { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+.mr-04 .play {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 40px; height: 40px; border-radius: 50%;
+  background: oklch(1 0 0 / 0.2); backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  display: grid; place-items: center;
+}
+.mr-04 .play::after {
+  content: ""; border-left: 10px solid #fff;
+  border-top: 7px solid transparent; border-bottom: 7px solid transparent;
+  margin-left: 3px;
+}
+.mr-04 .meta {
+  position: absolute; bottom: 8px; left: 10px; right: 10px;
+  font-family: var(--font-mono); font-size: 9px; color: var(--fg-1);
+  display: flex; justify-content: space-between;
+}
+
+/* MR-05 · Page mini-preview */
+.mr-05 { width: 85%; aspect-ratio: 16/10; border-radius: 10px; overflow: hidden;
+  background: oklch(0.98 0.005 260); color: #222;
+  transform: perspective(800px) rotateY(-10deg) rotateX(4deg);
+  box-shadow: 20px 30px 50px oklch(0 0 0 / 0.5);
+  position: relative; }
+.mr-05 .t {
+  display: flex; align-items: center; gap: 5px;
+  padding: 5px 8px; background: oklch(0.92 0.005 260);
+  border-bottom: 1px solid oklch(0.85 0.005 260);
+}
+.mr-05 .t span { width: 6px; height: 6px; border-radius: 50%; background: #ddd; }
+.mr-05 .bd { padding: 10px; display: flex; flex-direction: column; gap: 4px; }
+.mr-05 .bar { height: 6px; border-radius: 3px; background: oklch(0.85 0.01 260); }
+.mr-05 .bar.a { width: 70%; height: 10px; background: #222; }
+.mr-05 .bar.b { width: 40%; }
+.mr-05 .bd .blk { margin-top: 6px; height: 40%; background:
+  linear-gradient(135deg, oklch(0.7 0.15 290), oklch(0.8 0.12 220)); border-radius: 4px; }
+
+/* MR-06 · Swipe cards */
+.mr-06 { width: 85%; height: 75%; position: relative; perspective: 1000px; }
+.mr-06 .s {
+  position: absolute; inset: 0; border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  background: linear-gradient(135deg, oklch(0.25 0.05 290), oklch(0.2 0.03 260));
+  padding: 14px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  transform-origin: center;
+  animation: mr06-deck 6s infinite;
+}
+.mr-06 .s:nth-child(1) { animation-delay: 0s; }
+.mr-06 .s:nth-child(2) { animation-delay: 2s; }
+.mr-06 .s:nth-child(3) { animation-delay: 4s; }
+@keyframes mr06-deck {
+  0%    { transform: translateY(0) scale(1) rotate(0); opacity: 1; z-index: 3; }
+  20%   { transform: translateY(-10px) rotate(-8deg); opacity: 1; }
+  30%   { transform: translateX(-120%) rotate(-16deg); opacity: 0; }
+  30.1% { transform: translateY(16px) scale(.9); opacity: 0; z-index: 1; }
+  66%   { transform: translateY(8px) scale(0.95); opacity: 1; z-index: 2; }
+  100%  { transform: translateY(0) scale(1); opacity: 1; z-index: 3; }
+}
+.mr-06 .s .t { font-size: 12px; font-weight: 500; }
+.mr-06 .s .b { font-family: var(--font-mono); font-size: 9px; color: var(--fg-2); }
