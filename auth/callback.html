@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Signing in… · Elementr</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body {
+  margin: 0; min-height: 100vh;
+  display: grid; place-items: center;
+  background: oklch(0.14 0.012 260);
+  color: oklch(0.98 0.003 260);
+  font-family: "Geist", ui-sans-serif, system-ui, sans-serif;
+}
+.wrap { text-align: center; }
+.spin {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 3px solid oklch(1 0 0 / 0.12);
+  border-top-color: oklch(0.72 0.18 290);
+  margin: 0 auto 18px;
+  animation: sp 0.8s linear infinite;
+}
+@keyframes sp { to { transform: rotate(360deg); } }
+.t { color: oklch(0.62 0.012 260); font-size: 14px; }
+.err { color: oklch(0.7 0.2 20); display: none; margin-top: 10px; font-size: 13px; }
+.err.show { display: block; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="spin"></div>
+  <div class="t">Signing you in…</div>
+  <div class="err" id="err"></div>
+</div>
+<script type="module">
+import { sb } from "/shared/supabase.js";
+
+(async () => {
+  try {
+    // Supabase JS auto-detects the session from URL hash/query when detectSessionInUrl is true.
+    // We just need to give it a tick, then confirm and redirect.
+    const { data, error } = await sb.auth.getSession();
+    if (error) throw error;
+
+    // Wait briefly for any in-flight exchange if needed
+    if (!data.session) {
+      await new Promise(r => setTimeout(r, 500));
+    }
+    const { data: d2 } = await sb.auth.getSession();
+    if (!d2.session) {
+      document.getElementById("err").textContent = "Sign-in link expired or invalid. Try again.";
+      document.getElementById("err").classList.add("show");
+      setTimeout(() => location.href = "/login.html", 2500);
+      return;
+    }
+
+    // Successful sign-in — redirect
+    const next = new URLSearchParams(location.search).get("next") || "/app/";
+    const intentPlan = sessionStorage.getItem("elementr-intent-plan");
+    sessionStorage.removeItem("elementr-intent-plan");
+    // For now, Stripe isn't wired; paid plans land on /app with a toast prompting checkout.
+    if (intentPlan === "monthly" || intentPlan === "forever") {
+      location.href = `/app/?checkout=${intentPlan}`;
+    } else {
+      location.href = next;
+    }
+  } catch (e) {
+    document.getElementById("err").textContent = e.message || "Something went wrong.";
+    document.getElementById("err").classList.add("show");
+    setTimeout(() => location.href = "/login.html", 2500);
+  }
+})();
+</script>
+</body>
+</html>
