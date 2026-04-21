@@ -6044,14 +6044,14 @@ window.ANIM_DATA = {
     code.textContent = (window.__elementrPlan === "free") ? "" : liveSnippet;
     state.liveSnippet = liveSnippet;
 
-    // Let the editor module populate its panel + library actions
+    // Let the editor module populate its panel + library actions.
+    // Edits apply to the existing stage in-place (no re-render, no re-init):
+    // text changes swap textContent; color changes replace a scoped <style> tag.
+    // This keeps RAF loops alive and makes typing feel instant.
     if (window.renderEditorPanel) window.renderEditorPanel(item, state.drawerEdits, (newEdits) => {
       state.drawerEdits = newEdits;
-      // Re-render preview with new edits
-      prev.innerHTML = `<div class="tile-stage" style="position:absolute;inset:0">${item.render}</div>`;
-      const s2 = prev.querySelector(".tile-stage");
-      if (item.init) { try { item.init(prev); } catch(e) {} }
-      if (window.applyEdits) window.applyEdits(s2, item.id, newEdits);
+      const liveStage = prev.querySelector(".tile-stage");
+      if (liveStage && window.applyEdits) window.applyEdits(liveStage, item.id, newEdits);
       const s = (window.generateEditedSnippet ? window.generateEditedSnippet(item, newEdits) : item.snippet);
       code.textContent = (window.__elementrPlan === "free") ? "" : s;
       state.liveSnippet = s;
@@ -7210,15 +7210,22 @@ function showToast(msg, dur = 2000) {
 
   // ── Library sync (stars + saves) ──
   await loadLibrary();
-  // Hook into the sidebar to render "My Library" folder
   renderLibrarySidebar();
-  // Re-render the sidebar whenever categories refresh
-  const origRenderSidebar = window.renderSidebar;
-  // We don't have direct access to renderSidebar inside the IIFE, so we observe DOM mutations:
+
+  // Re-insert the library folder whenever the main app rewrites the sidebar.
+  // We disconnect the observer while mutating to avoid re-triggering ourselves.
   const navEl = document.getElementById("nav");
   if (navEl) {
-    const observer = new MutationObserver(() => renderLibrarySidebar());
-    observer.observe(navEl, { childList: true });
+    window.__libObserver = new MutationObserver((mutations) => {
+      // Ignore mutations that only involve our own library folder (insert/remove)
+      const onlyLib = mutations.every(m => {
+        const nodes = [...m.addedNodes, ...m.removedNodes];
+        return nodes.every(n => n.classList && n.classList.contains("lib-folder"));
+      });
+      if (onlyLib) return;
+      renderLibrarySidebar();
+    });
+    window.__libObserver.observe(navEl, { childList: true });
   }
 })();
 
@@ -7308,8 +7315,12 @@ function renderLibrarySidebar() {
   const navEl = document.getElementById("nav");
   if (!navEl) return;
 
-  // Remove any existing library folder first (so re-renders don't stack)
-  navEl.querySelectorAll(".lib-folder").forEach(el => el.remove());
+  // Disconnect the observer while we mutate — our own changes shouldn't loop.
+  if (window.__libObserver) window.__libObserver.disconnect();
+
+  try {
+    // Remove any existing library folder first (so re-renders don't stack)
+    navEl.querySelectorAll(".lib-folder").forEach(el => el.remove());
 
   const folder = document.createElement("div");
   const openFolders = JSON.parse(localStorage.getItem("elemek-folders") || "{}");
@@ -7356,8 +7367,14 @@ function renderLibrarySidebar() {
     folder.classList.toggle("open");
   });
 
-  // Insert at top of nav
-  navEl.insertBefore(folder, navEl.firstChild);
+    // Insert at top of nav
+    navEl.insertBefore(folder, navEl.firstChild);
+  } finally {
+    // Reconnect observer so external sidebar rewrites still trigger re-render
+    if (window.__libObserver && navEl) {
+      window.__libObserver.observe(navEl, { childList: true });
+    }
+  }
 }
 
 function openLibraryEntry(entry) {
