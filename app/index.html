@@ -6537,6 +6537,287 @@ window.ANIM_DATA = {
         { type:"text", key:"bg", label:"Background text", default:"ELEMENTR STUDIO · 2026", selector:".cu-09 .bg" },
       ]
     },
+
+    // ── Backgrounds (only those with obvious text/accent) ──
+    "bg-08": {
+      fields: [
+        { type:"text", key:"label", label:"Label", default:"TRANSMISSION · 2026", selector:".bg-08 .label" },
+      ]
+    },
+    "bg-18": {
+      fields: [
+        { type:"text", key:"text", label:"Text", default:"EST · 2026", selector:".bg-18 .g" },
+      ]
+    },
+    "bg-19": {
+      fields: [
+        { type:"text", key:"base", label:"Word (base layer)", default:"ELEMENTR", selector:".bg-19 .base" },
+        { type:"text", key:"g1",   label:"Word (glow 1)",    default:"ELEMENTR", selector:".bg-19 .g1" },
+        { type:"text", key:"g2",   label:"Word (glow 2)",    default:"ELEMENTR", selector:".bg-19 .g2" },
+      ]
+    },
+
+    // ── Intros ──
+    "in-01": {
+      fields: [
+        { type:"text", key:"text", label:"Center text", default:"ELEMENTR · 2026", selector:".in-01 .cnt" },
+      ]
+    },
+    "in-02": {
+      fields: [
+        { type:"text", key:"w1", label:"Word 1", default:"We",       selector:".in-02 .w:nth-child(1)" },
+        { type:"text", key:"w2", label:"Word 2", default:"design",   selector:".in-02 .w:nth-child(2)" },
+        { type:"text", key:"w3", label:"Word 3", default:"with",     selector:".in-02 .w:nth-child(3)" },
+        { type:"text", key:"w4", label:"Word 4", default:"intent.",  selector:".in-02 .w:nth-child(4)" },
+        { type:"text", key:"sub", label:"Subtitle", default:"ELEMENTR STUDIO · EST. 2026", selector:".in-02 .sub" },
+      ]
+    },
+    "in-03": {
+      fields: [
+        { type:"text", key:"main", label:"Main text", default:"ELEMENTR",       selector:".in-03 .count" },
+        { type:"text", key:"sub",  label:"Subtitle",  default:"Loading Experience", selector:".in-03 .sub" },
+      ]
+    },
+    "in-04": {
+      fields: [
+        { type:"text", key:"brand", label:"Headline", default:"WE BUILD STUDIOS", selector:".in-04 .brand" },
+      ]
+    },
+    "in-06": {
+      fields: [
+        { type:"text", key:"bg", label:"Background word", default:"ELEMENTR", selector:".in-06 .bg" },
+      ]
+    },
+    "in-07": {
+      fields: [
+        { type:"text", key:"eb", label:"Eyebrow",  default:"// ENTRY",      selector:".in-07 .eb" },
+        { type:"text", key:"h",  label:"Heading",  default:"Welcome home.", selector:".in-07 h2" },
+      ]
+    },
+    "in-08": {
+      fields: [
+        // Each letter is its own span; use textList targeting all spans
+        { type:"textList", key:"letters", label:"Letters", default:["E","L","E","M","E","N","T","R"], max:16 },
+      ],
+      selectors: { letters: ".in-08 h2 > span" }
+    },
+    "in-09": {
+      fields: [
+        { type:"text", key:"eb",    label:"Eyebrow",   default:"LOADING", selector:".in-09 .eb" },
+        { type:"text", key:"final", label:"Final text", default:"READY",  selector:".in-09 .final" },
+      ]
+    },
+    "in-10": {
+      fields: [
+        { type:"text", key:"lab", label:"Label", default:"ELEMENTR STUDIO", selector:".in-10 .lab" },
+      ]
+    },
+    "in-11": {
+      fields: [
+        { type:"text", key:"h", label:"Heading", default:"We make spaces worth entering.", selector:".in-11 .fg h2" },
+      ]
+    },
+    "in-12": {
+      fields: [
+        { type:"text", key:"label", label:"Label", default:"ASSEMBLING · ELEMENTR", selector:".in-12 .label" },
+      ]
+    },
+
+    // ── Scroll reveals ──
+    "sr-02": {
+      fields: [
+        { type:"textList", key:"lines", label:"Lines",
+          default:["We craft digital","experiences with","intention & depth."],
+          max:5 },
+      ],
+      selectors: { lines: ".sr-02 .ln" }
+    },
+    "sr-04": {
+      fields: [
+        { type:"text", key:"n1", label:"Stat 1 number", default:"120+",     selector:".sr-04 .stat:nth-child(1) .n" },
+        { type:"text", key:"l1", label:"Stat 1 label",  default:"PROJECTS", selector:".sr-04 .stat:nth-child(1) .l" },
+        { type:"text", key:"n2", label:"Stat 2 number", default:"36",       selector:".sr-04 .stat:nth-child(2) .n" },
+        { type:"text", key:"l2", label:"Stat 2 label",  default:"AWARDS",   selector:".sr-04 .stat:nth-child(2) .l" },
+        { type:"text", key:"n3", label:"Stat 3 number", default:"14",       selector:".sr-04 .stat:nth-child(3) .n" },
+        { type:"text", key:"l3", label:"Stat 3 label",  default:"PEOPLE",   selector:".sr-04 .stat:nth-child(3) .l" },
+      ]
+    },
+    "sr-06": {
+      fields: [
+        { type:"textList", key:"items", label:"Stage labels",
+          default:["01 · DISCOVERY","02 · DESIGN SYSTEM","03 · LAUNCH"], max:6 },
+      ],
+      selectors: { items: ".sr-06 .cp" }
+    },
+    "sc-07": {
+      fields: [
+        { type:"textList", key:"words", label:"Words", default:["We","work","as","if","the","outcome","were","already","clear."], max:16 },
+      ],
+      selectors: { words: ".sc-07 > span" }
+    },
+    "sc-08": {
+      fields: [
+        { type:"text", key:"r1", label:"Row 1", default:"Originality", selector:".sc-08 .row:nth-child(1) > span:last-child" },
+        { type:"text", key:"r2", label:"Row 2", default:"Rigor",       selector:".sc-08 .row:nth-child(2) > span:last-child" },
+        { type:"text", key:"r3", label:"Row 3", default:"Intent",      selector:".sc-08 .row:nth-child(3) > span:last-child" },
+        { type:"text", key:"r4", label:"Row 4", default:"Restraint",   selector:".sc-08 .row:nth-child(4) > span:last-child" },
+      ]
+    },
+    "sc-10": {
+      fields: [
+        { type:"text", key:"h", label:"Heading", default:"A studio for 2026 and after.", selector:".sc-10 h3" },
+      ]
+    },
+    "sc-11": {
+      fields: [
+        { type:"text", key:"lab", label:"Label", default:"FIELD NOTE · 02", selector:".sc-11 .lab" },
+      ]
+    },
+    "sc-12": {
+      fields: [
+        { type:"text", key:"t", label:"Text", default:"ELEMENTR · 54 variants · 2026", selector:".sc-12 .t" },
+      ]
+    },
+    "sc-14": {
+      fields: [
+        { type:"text", key:"top", label:"Top half", default:"Make well.", selector:".sc-14 .top h3" },
+        { type:"text", key:"bot", label:"Bottom half", default:"Make well.", selector:".sc-14 .bot h3" },
+      ]
+    },
+    "sc-15": {
+      fields: [
+        { type:"text", key:"h", label:"Heading", default:"Quiet craft.", selector:".sc-15 h3" },
+      ]
+    },
+    "sc-16": {
+      fields: [
+        { type:"text", key:"t", label:"Marquee text",
+          default:"— elementr · elementr · elementr · elementr · elementr · elementr · elementr · elementr —",
+          selector:".sc-16 .t" },
+      ]
+    },
+
+    // ── Cards ──
+    "card-01": {
+      fields: [
+        { type:"text", key:"title", label:"Title", default:"Case · Northline",  selector:".card-01 .c-title" },
+        { type:"text", key:"sub",   label:"Tags",  default:"BRAND / WEB / MOTION", selector:".card-01 .c-sub" },
+      ]
+    },
+    "card-02": {
+      fields: [
+        { type:"text", key:"front", label:"Front text",  default:"HOVER TO FLIP", selector:".card-02 .face:first-child" },
+        { type:"text", key:"stat",  label:"Stat",        default:"98%",           selector:".card-02 .face.back .stat" },
+        { type:"text", key:"statLabel", label:"Stat label", default:"CLIENT SATISFACTION", selector:".card-02 .face.back .stat-label" },
+      ]
+    },
+    "card-05": {
+      fields: [
+        { type:"text", key:"tag", label:"Tag",     default:"// FEATURED", selector:".card-05 .c-tag" },
+        { type:"text", key:"h",   label:"Heading", default:"Glow border cards with animated conic gradient.", selector:".card-05 .c-h" },
+      ]
+    },
+    "card-06": {
+      fields: [
+        { type:"text", key:"h", label:"Heading", default:"Northline / 2026",    selector:".card-06 .c-h" },
+        { type:"text", key:"p", label:"Meta",    default:"BRAND IDENTITY · WEB", selector:".card-06 .c-p" },
+      ]
+    },
+    "card-07": {
+      fields: [
+        { type:"text", key:"tag", label:"Tag",     default:"2026 · NEW",                  selector:".card-07 .c-tag" },
+        { type:"text", key:"h",   label:"Heading", default:"Atelier Soma",                selector:".card-07 .c-h" },
+        { type:"text", key:"p",   label:"Description", default:"Brand system for a sensory studio.", selector:".card-07 .c-p" },
+      ]
+    },
+    "card-08": {
+      fields: [
+        { type:"text", key:"top", label:"Top label",    default:"VIEW CASE",  selector:".card-08 .top span" },
+        { type:"text", key:"bot", label:"Bottom label", default:"NORTHLINE",  selector:".card-08 .bot span" },
+      ]
+    },
+    "card-09": {
+      fields: [
+        { type:"text", key:"tag", label:"Tag",     default:"2026 · ATELIER", selector:".card-09 .c-tag" },
+        { type:"text", key:"h",   label:"Heading", default:"Glowline",       selector:".card-09 .c-h" },
+        { type:"text", key:"p",   label:"Description", default:"Identity and type for a lighting studio.", selector:".card-09 .c-p" },
+      ]
+    },
+    "card-10": {
+      fields: [
+        { type:"text", key:"ft", label:"Front title", default:"NORTHLINE",            selector:".card-10 .ft" },
+        { type:"text", key:"fs", label:"Front sub",   default:"CASE STUDY · 2026",    selector:".card-10 .fs" },
+      ]
+    },
+    "card-11": {
+      fields: [
+        { type:"text", key:"tag", label:"Tag",     default:"WESTERN ADRIATIC", selector:".card-11 .c-tag" },
+        { type:"text", key:"h",   label:"Heading", default:"Coastal rebrand",  selector:".card-11 .c-h" },
+      ]
+    },
+    "card-12": {
+      fields: [
+        { type:"text", key:"h", label:"Heading", default:"Soma Type",            selector:".card-12 .h" },
+        { type:"text", key:"s", label:"Sub",     default:"A variable sans · v2.1", selector:".card-12 .s" },
+      ]
+    },
+    "card-13": {
+      fields: [
+        { type:"text", key:"title", label:"Title", default:"Morning Set",              selector:".card-13 .title" },
+        { type:"text", key:"sub",   label:"Sub",   default:"A studio podcast · 06",    selector:".card-13 .sub" },
+      ]
+    },
+    "card-14": {
+      fields: [
+        { type:"text", key:"ct", label:"Title", default:"FIELD<br>NOTES", selector:".card-14 .ct" },
+        { type:"text", key:"cs", label:"Sub",   default:"VOL · 06",       selector:".card-14 .cs" },
+      ]
+    },
+
+    // ── Reviews ──
+    "rv-03": {
+      fields: [
+        { type:"text", key:"num", label:"Rating", default:"4.96", selector:".rv-03 .num" },
+      ]
+    },
+    "rv-05": {
+      fields: [
+        { type:"textList", key:"logos", label:"Logo names",
+          default:["NORTHLINE","RIVUS","ATLAS","SOMA","AUREA","HEMISPHERE","MORANDI","OKAY"], max:12 },
+      ],
+      selectors: { logos: ".rv-05 .l" }
+    },
+    "rv-08": {
+      fields: [
+        { type:"text", key:"plus", label:"Count", default:"+42",                                           selector:".rv-08 .plus" },
+        { type:"text", key:"line", label:"Line",  default:"Trusted by 46 brand & studio teams in 2026.",  selector:".rv-08 .line" },
+      ]
+    },
+    "rv-10": {
+      fields: [
+        { type:"textList", key:"names", label:"Brands",
+          default:["ATLAS","NORTHLINE","SOMA","RIVUS","HEMISPHERE","MORANDI"], max:12 },
+      ],
+      selectors: { names: ".rv-10 .sweep > span" }
+    },
+    "rv-11": {
+      fields: [
+        { type:"text", key:"lb", label:"Label", default:"Studios served · since 2023", selector:".rv-11 .lb" },
+      ]
+    },
+
+    // ── Mockups ──
+    "mk-05": {
+      fields: [
+        { type:"text", key:"title", label:"Publication name", default:"The Elementr Review",   selector:".mk-news .title" },
+        { type:"text", key:"meta",  label:"Issue meta",        default:"Vol. XII · No. 204",   selector:".mk-news .meta" },
+      ]
+    },
+    "mk-06": {
+      fields: [
+        { type:"text", key:"url", label:"URL bar", default:"elementr.studio", selector:".mk-site .topbar .url" },
+      ]
+    },
   };
   window.EDITABLE_META = EDITABLE_META;
 
