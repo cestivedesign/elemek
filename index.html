@@ -269,6 +269,54 @@ button { font-family: inherit; color: inherit; cursor: pointer; }
   transform: translateY(-1px);
   box-shadow: 0 8px 28px oklch(from var(--accent) l c h / 0.5);
 }
+.price-card.current {
+  border-color: oklch(0.78 0.15 150 / 0.5);
+  background: linear-gradient(180deg, oklch(0.78 0.15 150 / 0.06), oklch(1 0 0 / 0.02));
+}
+.price-card.current .cta {
+  background: oklch(0.78 0.15 150 / 0.15);
+  color: oklch(0.85 0.15 150);
+  border: 1px solid oklch(0.78 0.15 150 / 0.4);
+  cursor: default;
+  pointer-events: none;
+}
+.price-card.current .cta::before { content: "✓  "; }
+
+/* User pill in nav (shown when signed in) */
+.nav-user {
+  display: none; align-items: center; gap: 10px;
+  padding: 6px 8px 6px 14px;
+  background: oklch(1 0 0 / 0.04);
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  font-size: 13px;
+}
+.nav-user.show { display: inline-flex; }
+.nav-user .plan-badge {
+  font-family: "Geist Mono", monospace; font-size: 9.5px;
+  letter-spacing: 0.14em;
+  padding: 2px 8px; border-radius: 999px;
+  background: var(--bg-3); color: var(--fg-1);
+}
+.nav-user .plan-badge.paid {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #000;
+}
+.nav-user .email {
+  color: var(--fg-1);
+  max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.nav-user .out {
+  padding: 5px 11px; border-radius: 999px;
+  background: var(--bg-2); color: var(--fg-1);
+  border: 1px solid var(--line-2);
+  font-family: inherit; font-size: 11.5px; cursor: pointer;
+  transition: background .2s, color .2s;
+}
+.nav-user .out:hover { background: var(--bg-3); color: var(--fg-0); }
+@media (max-width: 720px) {
+  .nav-user .email { display: none; }
+}
 
 /* ── Footer ── */
 footer {
@@ -300,6 +348,11 @@ footer a:hover { color: var(--fg-0); }
   <div class="nav-links">
     <a href="#features">Features</a>
     <a href="#pricing">Pricing</a>
+    <div class="nav-user" id="navUser">
+      <span class="plan-badge" id="navPlanBadge">FREE</span>
+      <span class="email" id="navEmail">—</span>
+      <button class="out" id="navOut">Sign out</button>
+    </div>
     <a href="/app/" class="btn" id="navCta">Open App</a>
   </div>
 </nav>
@@ -391,24 +444,44 @@ footer a:hover { color: var(--fg-0); }
 </footer>
 
 <script type="module">
-import { getSession, signOut } from "/shared/supabase.js";
-// Update nav CTA based on session state
+import { getSession, getProfile, signOut } from "/shared/supabase.js";
+
 (async () => {
   const cta = document.getElementById("navCta");
+  const navUser = document.getElementById("navUser");
   const session = await getSession();
-  if (session) {
-    cta.textContent = "Open App";
-    cta.href = "/app/";
-    // Add sign-out link next to it
-    const out = document.createElement("a");
-    out.textContent = "Sign out";
-    out.href = "#";
-    out.style.marginLeft = "14px";
-    out.addEventListener("click", (e) => { e.preventDefault(); signOut(); });
-    cta.parentNode.appendChild(out);
-  } else {
+
+  if (!session) {
     cta.textContent = "Sign in";
     cta.href = "/login.html";
+    return;
+  }
+
+  // Signed in — fetch plan, show user pill, hide duplicate CTA, highlight current plan card
+  const profile = await getProfile();
+  const plan = (profile && profile.plan) || "free";
+  const email = session.user.email || "";
+
+  document.getElementById("navEmail").textContent = email;
+  const badge = document.getElementById("navPlanBadge");
+  badge.textContent = plan.toUpperCase();
+  if (plan !== "free") badge.classList.add("paid");
+  navUser.classList.add("show");
+  document.getElementById("navOut").addEventListener("click", () => signOut());
+
+  cta.textContent = "Open App";
+  cta.href = "/app/";
+
+  // Highlight which pricing card is their current plan
+  const cardMap = { free: 0, monthly: 1, forever: 2 };
+  const idx = cardMap[plan];
+  if (idx !== undefined) {
+    const cards = document.querySelectorAll(".price-card");
+    if (cards[idx]) {
+      cards[idx].classList.add("current");
+      const cta2 = cards[idx].querySelector(".cta");
+      if (cta2) cta2.textContent = "Your current plan";
+    }
   }
 })();
 </script>

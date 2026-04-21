@@ -3543,6 +3543,196 @@ body.plan-free .upgrade-card { display: block; }
   box-shadow: 0 8px 28px oklch(from var(--accent) l c h / 0.5);
 }
 
+/* ── Editor panel + library actions ── */
+.lib-actions {
+  display: flex; gap: 8px;
+  padding: 0 0 16px; margin-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+.lib-btn {
+  flex: 1;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 9px 12px;
+  background: var(--bg-1); color: var(--fg-1);
+  border: 1px solid var(--line-2); border-radius: 9px;
+  font-family: inherit; font-size: 12.5px; font-weight: 500;
+  cursor: pointer; transition: background .2s, color .2s, border-color .2s;
+}
+.lib-btn:hover { background: var(--bg-2); color: var(--fg-0); border-color: var(--fg-3); }
+.lib-btn.starred { background: oklch(from var(--accent) l c h / 0.1); border-color: oklch(from var(--accent) l c h / 0.4); color: var(--accent); }
+.lib-btn.starred .lib-ico { color: var(--accent); }
+.lib-ico { font-size: 13px; }
+
+.editor-panel {
+  display: none;
+  padding: 0 0 16px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+.editor-panel.show { display: block; }
+.editor-panel h5 {
+  font-family: var(--font-mono); font-size: 10.5px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--fg-2); margin: 0 0 12px;
+}
+.ed-field { margin-bottom: 14px; }
+.ed-field:last-child { margin-bottom: 0; }
+.ed-label {
+  display: block;
+  font-size: 12px; color: var(--fg-1);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+.ed-input {
+  width: 100%; padding: 8px 10px;
+  background: var(--bg-1); color: var(--fg-0);
+  border: 1px solid var(--line-2); border-radius: 7px;
+  font-family: inherit; font-size: 13px;
+  transition: border-color .2s;
+}
+.ed-input:focus { outline: none; border-color: var(--accent); }
+.ed-textlist { display: flex; flex-direction: column; gap: 6px; }
+.ed-textlist-row {
+  display: flex; gap: 6px; align-items: center;
+}
+.ed-textlist-row .ed-input { flex: 1; }
+.ed-textlist-row .ed-x {
+  width: 26px; height: 26px; border-radius: 6px;
+  background: transparent; color: var(--fg-3);
+  border: 1px solid var(--line);
+  cursor: pointer; font-size: 13px; flex-shrink: 0;
+  transition: background .2s, color .2s;
+}
+.ed-textlist-row .ed-x:hover { background: var(--bg-2); color: var(--fg-1); }
+.ed-textlist-add {
+  padding: 6px 10px; margin-top: 2px;
+  background: transparent; color: var(--fg-2);
+  border: 1px dashed var(--line-2); border-radius: 7px;
+  font-family: inherit; font-size: 11.5px;
+  cursor: pointer; align-self: flex-start;
+  transition: color .2s, border-color .2s;
+}
+.ed-textlist-add:hover { color: var(--fg-0); border-color: var(--fg-3); }
+
+.ed-color-row {
+  display: flex; align-items: center; gap: 10px;
+  flex-wrap: wrap;
+}
+.ed-color-swatch {
+  position: relative;
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 2px solid var(--line-2); cursor: pointer;
+  overflow: hidden; flex-shrink: 0;
+  box-shadow: inset 0 0 0 2px oklch(0 0 0 / 0.3);
+  transition: transform .15s, border-color .2s;
+}
+.ed-color-swatch:hover { transform: scale(1.08); border-color: var(--fg-3); }
+.ed-color-swatch input[type="color"] {
+  position: absolute; inset: -20%;
+  border: none; cursor: pointer;
+  opacity: 0;
+}
+.ed-color-presets {
+  display: flex; gap: 4px; flex: 1;
+  flex-wrap: wrap;
+}
+.ed-color-preset {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 1px solid oklch(1 0 0 / 0.2); cursor: pointer;
+  transition: transform .15s;
+}
+.ed-color-preset:hover { transform: scale(1.2); }
+.ed-color-hex {
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--fg-3); letter-spacing: 0.06em;
+}
+
+.ed-range-row {
+  display: flex; align-items: center; gap: 10px;
+}
+.ed-range {
+  flex: 1; height: 4px;
+  background: var(--bg-3); border-radius: 999px;
+  -webkit-appearance: none; appearance: none;
+  outline: none; cursor: pointer;
+}
+.ed-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--accent); cursor: pointer;
+  border: 2px solid var(--fg-0);
+  box-shadow: 0 2px 6px oklch(0 0 0 / 0.4);
+}
+.ed-range-val {
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--fg-2); min-width: 32px; text-align: right;
+}
+
+.ed-reset {
+  margin-top: 10px;
+  background: transparent;
+  color: var(--fg-2); border: none;
+  font-family: inherit; font-size: 11.5px;
+  cursor: pointer; padding: 4px 0;
+  text-decoration: underline;
+}
+.ed-reset:hover { color: var(--fg-0); }
+
+/* ── Save dialog ── */
+.save-dialog {
+  position: fixed; inset: 0; z-index: 250;
+  display: none; align-items: center; justify-content: center;
+  padding: 24px;
+  background: oklch(0 0 0 / 0.6);
+  backdrop-filter: blur(6px);
+}
+.save-dialog.open { display: flex; }
+.save-dialog .sd-card {
+  width: 100%; max-width: 400px;
+  background: var(--bg-1);
+  border: 1px solid var(--line-2); border-radius: 16px;
+  padding: 28px 24px;
+}
+.save-dialog h3 { margin: 0 0 4px; font-size: 18px; font-weight: 600; letter-spacing: -0.01em; }
+.save-dialog .sd-sub { color: var(--fg-2); font-size: 13px; margin: 0 0 20px; }
+.save-dialog .sd-row { display: flex; gap: 8px; margin-top: 18px; }
+.save-dialog .sd-row button {
+  flex: 1; padding: 10px 14px; border-radius: 9px;
+  font-family: inherit; font-size: 13px; font-weight: 500;
+  cursor: pointer; border: 1px solid var(--line-2);
+}
+.save-dialog .sd-cancel { background: var(--bg-2); color: var(--fg-1); }
+.save-dialog .sd-cancel:hover { background: var(--bg-3); color: var(--fg-0); }
+.save-dialog .sd-ok {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #000; border: none; font-weight: 600;
+}
+
+/* ── Library folder in sidebar ── */
+.lib-folder .nav-folder-head { color: var(--accent); }
+.lib-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 12px; margin: 1px 0;
+  border-radius: 8px;
+  font-size: 13px; color: var(--fg-1);
+  cursor: pointer; transition: background .2s;
+  position: relative;
+}
+.lib-item:hover { background: var(--glass); }
+.lib-item .lib-item-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lib-item .lib-del {
+  width: 20px; height: 20px; border-radius: 5px;
+  background: transparent; color: var(--fg-3);
+  border: none; cursor: pointer; font-size: 11px;
+  opacity: 0; transition: opacity .2s, color .2s;
+}
+.lib-item:hover .lib-del { opacity: 1; }
+.lib-item .lib-del:hover { color: oklch(0.7 0.2 20); }
+.lib-empty {
+  padding: 10px 12px; color: var(--fg-3);
+  font-size: 12px; font-style: italic;
+}
+
 /* Mobile */
 @media (max-width: 720px) {
   .paywall-plans { grid-template-columns: 1fr; }
@@ -3647,6 +3837,16 @@ body.plan-free .upgrade-card { display: block; }
           <p>Preview is free. Code snippets unlock with any paid plan.</p>
           <button id="upgradeBtn">See plans</button>
         </div>
+
+        <!-- Save / Library actions -->
+        <div class="lib-actions" id="libActions" style="display:none">
+          <button class="lib-btn" id="starBtn" title="Add to My Library"><span class="lib-ico">☆</span>Star</button>
+          <button class="lib-btn" id="saveBtn" title="Save your customized version"><span class="lib-ico">⬇</span>Save as…</button>
+        </div>
+
+        <!-- Editor panel (populated by JS when effect is editable) -->
+        <div class="editor-panel" id="editorPanel"></div>
+
         <div class="side-head">
           <span class="side-label">Snippet</span>
           <button class="drawer-code-copy" id="drawerCodeCopy">Copy</button>
@@ -5810,8 +6010,10 @@ window.ANIM_DATA = {
   }
 
   // ── Drawer ──
-  function openDrawer(item, num) {
+  function openDrawer(item, num, savedEdits) {
     state.drawer = item;
+    state.drawerNum = num;
+    state.drawerEdits = savedEdits || (window.__savedEditsBuffer && window.__savedEditsBuffer[item.id]) || {};
     const d = document.getElementById("drawer");
     d.classList.add("open");
     d.setAttribute("aria-hidden", "false");
@@ -5829,13 +6031,33 @@ window.ANIM_DATA = {
     }
     const prev = d.querySelector(".drawer-preview");
     prev.innerHTML = `<div class="tile-stage" style="position:absolute;inset:0">${item.render}</div>`;
+    const stage = prev.querySelector(".tile-stage");
     if (item.init) {
       try { item.init(prev); } catch(e) {}
     }
+    // Apply any active edits (from saved entries or session)
+    if (window.applyEdits) window.applyEdits(stage, item.id, state.drawerEdits);
+
     const code = d.querySelector("#drawerCode");
     // Free users never see the raw snippet in the DOM.
-    code.textContent = (window.__elementrPlan === "free") ? "" : item.snippet;
+    const liveSnippet = (window.generateEditedSnippet ? window.generateEditedSnippet(item, state.drawerEdits) : item.snippet);
+    code.textContent = (window.__elementrPlan === "free") ? "" : liveSnippet;
+    state.liveSnippet = liveSnippet;
+
+    // Let the editor module populate its panel + library actions
+    if (window.renderEditorPanel) window.renderEditorPanel(item, state.drawerEdits, (newEdits) => {
+      state.drawerEdits = newEdits;
+      // Re-render preview with new edits
+      prev.innerHTML = `<div class="tile-stage" style="position:absolute;inset:0">${item.render}</div>`;
+      const s2 = prev.querySelector(".tile-stage");
+      if (item.init) { try { item.init(prev); } catch(e) {} }
+      if (window.applyEdits) window.applyEdits(s2, item.id, newEdits);
+      const s = (window.generateEditedSnippet ? window.generateEditedSnippet(item, newEdits) : item.snippet);
+      code.textContent = (window.__elementrPlan === "free") ? "" : s;
+      state.liveSnippet = s;
+    });
   }
+  window.__openDrawer = openDrawer;
   function closeDrawer() {
     const d = document.getElementById("drawer");
     d.classList.remove("open");
@@ -5957,18 +6179,446 @@ window.ANIM_DATA = {
       }
     });
     document.getElementById("copyBtn").addEventListener("click", () => {
-      if (state.drawer) copyToClipboard(state.drawer.snippet);
+      if (state.drawer) copyToClipboard(state.liveSnippet || state.drawer.snippet);
     });
     const dcc = document.getElementById("drawerCodeCopy");
     if (dcc) dcc.addEventListener("click", () => {
-      if (state.drawer) copyToClipboard(state.drawer.snippet);
+      if (state.drawer) copyToClipboard(state.liveSnippet || state.drawer.snippet);
     });
     setupTweaks();
   });
 })();
 </script>
 
-<!-- ── Auth + paywall wiring ── -->
+<!-- Save-as dialog -->
+<div class="save-dialog" id="saveDialog" aria-hidden="true">
+  <div class="sd-card">
+    <h3 id="sdTitle">Save to My Library</h3>
+    <p class="sd-sub">Give this version a name you'll recognize.</p>
+    <input type="text" class="ed-input" id="sdName" placeholder="e.g. Hero nav — cyan" maxlength="60">
+    <div class="sd-row">
+      <button class="sd-cancel" id="sdCancel">Cancel</button>
+      <button class="sd-ok" id="sdOk">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Editor infrastructure + menubar metadata ── -->
+<script>
+(function(){
+  // ── Color presets (shown alongside each color picker) ──
+  const COLOR_PRESETS = [
+    "#a88bff", "#6ee7f9", "#ffd36e", "#ff7a90", "#7ef5a0",
+    "#ffffff", "#0b0b13", "#3b82f6", "#ec4899", "#22c55e"
+  ];
+  window.COLOR_PRESETS = COLOR_PRESETS;
+
+  // ── Editable metadata for menubars ──
+  // Each effect declares its editable fields. applyEdits uses these to modify
+  // a rendered preview; generateEditedSnippet uses them to rewrite the copied code.
+  // Fields:
+  //   { type: 'text'|'textList'|'color'|'range', key, label, default, selector?, css?, cssVar?, min?, max?, step? }
+  // `css` is a template string with {scope} (per-instance class) and {value}.
+  const MENUBAR_LABELS = ["WORK","STUDIO","JOURNAL","CONTACT"];
+
+  function menubarLabels(defaults) {
+    return { type:"textList", key:"items", label:"Menu items", default:defaults, max:8 };
+  }
+
+  const EDITABLE_META = {
+    "mb-01": {
+      selectors: { items: ".mb-01 > a" },
+      fields: [
+        menubarLabels(["WORK","STUDIO","JOURNAL","CONTACT"]),
+        { type:"color", key:"pill",  label:"Pill (active)", default:"#a88bff",
+          css:"{scope} .mb-01 .pill { background: {value} !important; }" },
+        { type:"color", key:"textActive", label:"Active text", default:"#0b0b13",
+          css:"{scope} .mb-01 a.active { color: {value} !important; }" },
+      ],
+      snippet: { itemsPattern: /<a class="active">Work<\/a><a>Studio<\/a><a>Journal<\/a><a>Contact<\/a>/,
+                 colors: (v) => [
+                   v.pill       ? `.mb-01 .pill { background: ${v.pill}; }` : "",
+                   v.textActive ? `.mb-01 a.active { color: ${v.textActive}; }` : ""
+                 ] }
+    },
+    "mb-02": {
+      selectors: { items: ".mb-02 > a" },
+      fields: [
+        menubarLabels(["WORK","STUDIO","JOURNAL","CONTACT"]),
+        { type:"color", key:"underline", label:"Underline", default:"#a88bff",
+          css:"{scope} .mb-02 .underline { background: {value} !important; }" },
+        { type:"color", key:"text", label:"Item text", default:"#b8b8bd",
+          css:"{scope} .mb-02 a { color: {value}; }" },
+      ]
+    },
+    "mb-03": {
+      selectors: { items: ".mb-03 .dock-i" },
+      fields: [
+        { type:"textList", key:"items", label:"Dock items", default:["A","B","C","D","E","F"], max:8 },
+      ]
+    },
+    "mb-04": {
+      selectors: { items: ".mb-04 > a" },
+      fields: [
+        menubarLabels(["HOME","SERVICES","CLIENTS","NEWS"]),
+        { type:"color", key:"blob", label:"Blob color", default:"#a88bff",
+          css:"{scope} .mb-04 .blob { background: {value} !important; }" },
+      ]
+    },
+    "mb-05": {
+      selectors: { items: ".mb-05 > a" },
+      fields: [
+        menubarLabels(["DESIGN","BUILD","LAUNCH","GROW"]),
+        { type:"color", key:"tick", label:"Tick color", default:"#a88bff",
+          css:"{scope} .mb-05 .tick { background: {value} !important; box-shadow: 0 0 12px {value}; }" },
+      ]
+    },
+    "mb-06": {
+      selectors: { items: ".mb-06 > a" },
+      fields: [
+        menubarLabels(["WORK","ABOUT","PROCESS","CONTACT"]),
+      ]
+    },
+    "mb-07": {
+      selectors: { items: ".mb-07 .nav a" },
+      fields: [
+        menubarLabels(["HOME","WORK","LAB","SHOP"]),
+        { type:"color", key:"chip", label:"Active chip", default:"#a88bff",
+          css:"{scope} .mb-07 .chip { background: {value} !important; }" },
+      ]
+    },
+    "mb-08": {
+      selectors: { items: ".mb-08 .nav a" },
+      fields: [
+        menubarLabels(["STUDIO","CASES","TEAM","PRESS"]),
+        { type:"color", key:"hover", label:"Hover color", default:"#a88bff",
+          css:"{scope} .mb-08 .nav a:hover { color: {value} !important; }" },
+      ]
+    },
+    "mb-09": {
+      selectors: { items: ".mb-09 .nav a" },
+      fields: [
+        menubarLabels(["HOME","WORK","JOURNAL","INFO"]),
+        { type:"color", key:"bracket", label:"Bracket color", default:"#a88bff",
+          css:"{scope} .mb-09 .nav a::before, {scope} .mb-09 .nav a::after { border-color: {value} !important; } {scope} .mb-09 .nav a:hover { color: {value} !important; }" },
+      ]
+    },
+    "mb-10": {
+      selectors: { items: ".mb-10 .nav a" },
+      fields: [
+        menubarLabels(["PRODUCTS","COMPANY","RESOURCES","CONTACT"]),
+        { type:"color", key:"hover", label:"Hover color", default:"#a88bff",
+          css:"{scope} .mb-10 .nav a:hover { color: {value} !important; } {scope} .mb-10 .nav .has-sub:hover .car { color: {value} !important; }" },
+      ]
+    },
+    "mb-11": {
+      selectors: { items: ".mb-11 .vside a" },
+      fields: [
+        menubarLabels(["OVERVIEW","PROJECTS","TEAM","JOURNAL","CONTACT"]),
+        { type:"color", key:"active", label:"Active color", default:"#a88bff",
+          css:"{scope} .mb-11 .vside a.active { color: {value} !important; } {scope} .mb-11 .vside .hi { background: oklch(from {value} l c h / 0.15) !important; }" },
+      ]
+    },
+    "mb-12": {
+      selectors: { items: ".mb-12 .nav > a" },
+      fields: [
+        { type:"text", key:"brand", label:"Brand label", default:"◉ ELEMENTR",
+          selector:".mb-12 .nav .logo" },
+        menubarLabels(["Work","Studio","Contact"]),
+      ]
+    }
+  };
+  window.EDITABLE_META = EDITABLE_META;
+
+  // ── applyEdits: mutate a rendered stage to reflect user values ──
+  function applyEdits(stageEl, effectId, values) {
+    if (!stageEl) return;
+    const meta = EDITABLE_META[effectId];
+    if (!meta) return;
+
+    // Assign a unique scope class so injected CSS only affects this preview
+    let scope = stageEl.dataset.editScope;
+    if (!scope) {
+      scope = "es-" + Math.random().toString(36).slice(2, 9);
+      stageEl.dataset.editScope = scope;
+      stageEl.classList.add(scope);
+    }
+    const scopeSel = "." + scope;
+
+    // Clear previous injected style
+    stageEl.querySelectorAll("style[data-edit-style]").forEach(s => s.remove());
+
+    const cssRules = [];
+    for (const f of meta.fields) {
+      const val = (values && values[f.key] !== undefined) ? values[f.key] : f.default;
+      if (val === undefined || val === null) continue;
+
+      if (f.type === "text") {
+        const target = stageEl.querySelector(f.selector);
+        if (target) target.textContent = val;
+      } else if (f.type === "textList") {
+        const sel = (meta.selectors && meta.selectors[f.key]) || f.selector;
+        const targets = stageEl.querySelectorAll(sel);
+        // Replace existing items; if user added more than default, append; if fewer, remove extras.
+        const existing = Array.from(targets);
+        // If user has more items than DOM, clone the last one as template
+        if (val.length > existing.length && existing.length > 0) {
+          const template = existing[existing.length - 1];
+          const parent = template.parentNode;
+          for (let i = existing.length; i < val.length; i++) {
+            const clone = template.cloneNode(true);
+            clone.classList.remove("active");
+            parent.appendChild(clone);
+          }
+        }
+        // If user has fewer, remove extras
+        if (val.length < existing.length) {
+          for (let i = val.length; i < existing.length; i++) existing[i].remove();
+        }
+        // Now update text
+        const fresh = stageEl.querySelectorAll(sel);
+        val.forEach((t, i) => { if (fresh[i]) fresh[i].textContent = t; });
+      } else if (f.type === "color" && f.css) {
+        cssRules.push(f.css.replaceAll("{scope}", scopeSel).replaceAll("{value}", val));
+      } else if (f.type === "range" && f.cssVar) {
+        stageEl.style.setProperty(f.cssVar, val);
+      }
+    }
+
+    if (cssRules.length) {
+      const style = document.createElement("style");
+      style.setAttribute("data-edit-style", "");
+      style.textContent = cssRules.join("\n");
+      stageEl.appendChild(style);
+    }
+  }
+  window.applyEdits = applyEdits;
+
+  // ── Snippet rewriter: substitute edits into the copied code ──
+  function generateEditedSnippet(item, values) {
+    const meta = EDITABLE_META[item.id];
+    if (!meta) return item.snippet;
+    let s = item.snippet;
+    const edits = values || {};
+
+    // Substitute item labels via pattern (if declared)
+    if (meta.snippet && meta.snippet.itemsPattern && edits.items) {
+      const itemsHtml = edits.items.map((t, i) => `<a${i===0?' class="active"':''}>${t}</a>`).join("");
+      s = s.replace(meta.snippet.itemsPattern, itemsHtml);
+    }
+
+    // Fallback: naive replace for textList fields — swap the default labels one-by-one
+    if (edits.items) {
+      const listField = (meta.fields || []).find(f => f.type === "textList" && f.key === "items");
+      if (listField && listField.default) {
+        // Replace only if pattern not already handled
+        if (!(meta.snippet && meta.snippet.itemsPattern)) {
+          listField.default.forEach((def, i) => {
+            if (edits.items[i] && edits.items[i] !== def) {
+              const re = new RegExp(`>${escapeRe(def)}<`, "g");
+              s = s.replace(re, `>${edits.items[i]}<`);
+            }
+          });
+        }
+      }
+    }
+
+    // Text fields (single)
+    (meta.fields || []).forEach(f => {
+      if (f.type === "text" && edits[f.key] && edits[f.key] !== f.default) {
+        const re = new RegExp(escapeRe(f.default), "g");
+        s = s.replace(re, edits[f.key]);
+      }
+    });
+
+    // Append color overrides as a /* customizations */ block at the top of the CSS snippet
+    const colorOverrides = [];
+    (meta.fields || []).forEach(f => {
+      if (f.type === "color" && edits[f.key] && edits[f.key] !== f.default && f.css) {
+        // Strip {scope} and !important for clean snippet
+        const rule = f.css.replaceAll("{scope} ", "").replaceAll(" !important", "").replaceAll("{value}", edits[f.key]);
+        colorOverrides.push(rule);
+      }
+    });
+    if (colorOverrides.length) {
+      s = `/* Your customizations */\n${colorOverrides.join("\n")}\n\n${s}`;
+    }
+
+    return s;
+  }
+  window.generateEditedSnippet = generateEditedSnippet;
+
+  function escapeRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
+
+  // ── Editor UI: render the edit panel into #editorPanel ──
+  function renderEditorPanel(item, currentEdits, onChange) {
+    const panel = document.getElementById("editorPanel");
+    const libActions = document.getElementById("libActions");
+    if (!panel) return;
+
+    const meta = EDITABLE_META[item.id];
+    if (!meta) {
+      panel.classList.remove("show");
+      panel.innerHTML = "";
+      libActions.style.display = "flex"; // still allow starring
+      setupLibActions(item, {});
+      return;
+    }
+
+    panel.classList.add("show");
+    libActions.style.display = "flex";
+
+    const values = { ...currentEdits };
+    // Ensure defaults are set where missing
+    meta.fields.forEach(f => {
+      if (values[f.key] === undefined) values[f.key] = Array.isArray(f.default) ? [...f.default] : f.default;
+    });
+
+    function emit() { onChange && onChange({ ...values }); }
+
+    let html = `<h5>Customize</h5>`;
+
+    meta.fields.forEach((f, fieldIdx) => {
+      html += `<div class="ed-field" data-field="${f.key}">`;
+      html += `<label class="ed-label">${f.label}</label>`;
+      if (f.type === "text") {
+        html += `<input type="text" class="ed-input" data-k="${f.key}" value="${escapeAttr(values[f.key])}" maxlength="40">`;
+      } else if (f.type === "textList") {
+        html += `<div class="ed-textlist" data-k="${f.key}">`;
+        values[f.key].forEach((v, i) => {
+          html += `<div class="ed-textlist-row"><input type="text" class="ed-input" data-i="${i}" value="${escapeAttr(v)}" maxlength="32"><button class="ed-x" data-i="${i}" title="Remove">✕</button></div>`;
+        });
+        html += `<button class="ed-textlist-add" type="button">+ Add item</button>`;
+        html += `</div>`;
+      } else if (f.type === "color") {
+        const v = values[f.key];
+        html += `<div class="ed-color-row" data-k="${f.key}">`;
+        html += `<div class="ed-color-swatch" style="background:${v}"><input type="color" value="${v}" data-k="${f.key}"></div>`;
+        html += `<div class="ed-color-presets">`;
+        COLOR_PRESETS.forEach(p => {
+          html += `<div class="ed-color-preset" data-k="${f.key}" data-c="${p}" style="background:${p}" title="${p}"></div>`;
+        });
+        html += `</div>`;
+        html += `<span class="ed-color-hex">${v.toUpperCase()}</span>`;
+        html += `</div>`;
+      } else if (f.type === "range") {
+        const min = f.min ?? 0, max = f.max ?? 1, step = f.step ?? 0.05;
+        html += `<div class="ed-range-row"><input type="range" class="ed-range" data-k="${f.key}" min="${min}" max="${max}" step="${step}" value="${values[f.key]}"><span class="ed-range-val">${values[f.key]}</span></div>`;
+      }
+      html += `</div>`;
+    });
+    html += `<button class="ed-reset" type="button">Reset to defaults</button>`;
+
+    panel.innerHTML = html;
+
+    // Wire inputs
+    panel.querySelectorAll('input[type="text"][data-k]').forEach(el => {
+      el.addEventListener("input", () => { values[el.dataset.k] = el.value; emit(); });
+    });
+    panel.querySelectorAll('.ed-textlist').forEach(listEl => {
+      const key = listEl.dataset.k;
+      // Item text change
+      listEl.querySelectorAll('input[type="text"]').forEach(inp => {
+        inp.addEventListener("input", () => {
+          const i = parseInt(inp.dataset.i, 10);
+          values[key][i] = inp.value;
+          emit();
+        });
+      });
+      // Remove item
+      listEl.querySelectorAll('.ed-x').forEach(btn => {
+        btn.addEventListener("click", () => {
+          const i = parseInt(btn.dataset.i, 10);
+          if (values[key].length <= 1) return; // keep at least 1
+          values[key].splice(i, 1);
+          emit(); renderEditorPanel(item, values, onChange);
+        });
+      });
+      // Add item
+      const addBtn = listEl.querySelector('.ed-textlist-add');
+      if (addBtn) addBtn.addEventListener("click", () => {
+        const field = meta.fields.find(f => f.key === key);
+        if (values[key].length >= (field.max || 8)) return;
+        values[key].push("NEW");
+        emit(); renderEditorPanel(item, values, onChange);
+      });
+    });
+    panel.querySelectorAll('input[type="color"][data-k]').forEach(el => {
+      el.addEventListener("input", () => {
+        values[el.dataset.k] = el.value;
+        const swatch = el.closest('.ed-color-swatch');
+        if (swatch) swatch.style.background = el.value;
+        const hex = el.closest('.ed-color-row').querySelector('.ed-color-hex');
+        if (hex) hex.textContent = el.value.toUpperCase();
+        emit();
+      });
+    });
+    panel.querySelectorAll('.ed-color-preset').forEach(el => {
+      el.addEventListener("click", () => {
+        const k = el.dataset.k, c = el.dataset.c;
+        values[k] = c;
+        const row = el.closest('.ed-color-row');
+        const swatch = row.querySelector('.ed-color-swatch');
+        if (swatch) swatch.style.background = c;
+        const colorInput = row.querySelector('input[type="color"]');
+        if (colorInput) colorInput.value = c;
+        const hex = row.querySelector('.ed-color-hex');
+        if (hex) hex.textContent = c.toUpperCase();
+        emit();
+      });
+    });
+    panel.querySelectorAll('input[type="range"][data-k]').forEach(el => {
+      el.addEventListener("input", () => {
+        values[el.dataset.k] = parseFloat(el.value);
+        const vlab = el.parentElement.querySelector('.ed-range-val');
+        if (vlab) vlab.textContent = el.value;
+        emit();
+      });
+    });
+    panel.querySelector('.ed-reset').addEventListener("click", () => {
+      const defaults = {};
+      meta.fields.forEach(f => { defaults[f.key] = Array.isArray(f.default) ? [...f.default] : f.default; });
+      emit();
+      onChange && onChange(defaults);
+      renderEditorPanel(item, defaults, onChange);
+    });
+
+    setupLibActions(item, values);
+  }
+  window.renderEditorPanel = renderEditorPanel;
+
+  function escapeAttr(s) { return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+
+  // ── Library actions (Star / Save as…) ──
+  // These talk to window.__libSave / __libStar which are defined in the module script below.
+  function setupLibActions(item, values) {
+    const starBtn = document.getElementById("starBtn");
+    const saveBtn = document.getElementById("saveBtn");
+    if (!starBtn || !saveBtn) return;
+
+    const newStar = starBtn.cloneNode(true); starBtn.replaceWith(newStar);
+    const newSave = saveBtn.cloneNode(true); saveBtn.replaceWith(newSave);
+
+    // Reflect current starred status
+    const isStarred = window.__isStarred && window.__isStarred(item.id);
+    if (isStarred) newStar.classList.add("starred");
+    newStar.querySelector(".lib-ico").textContent = isStarred ? "★" : "☆";
+    newStar.childNodes[newStar.childNodes.length-1].textContent = isStarred ? "Starred" : "Star";
+
+    newStar.addEventListener("click", async () => {
+      if (!window.__libToggleStar) return;
+      await window.__libToggleStar(item);
+      setupLibActions(item, values);
+    });
+    newSave.addEventListener("click", () => {
+      if (!window.__libOpenSaveDialog) return;
+      window.__libOpenSaveDialog(item, values);
+    });
+  }
+})();
+</script>
+
+<!-- ── Auth + paywall wiring + library sync ── -->
 <script type="module">
 import { sb, getSession, getProfile, signOut } from "/shared/supabase.js";
 
@@ -6054,7 +6704,170 @@ function showToast(msg, dur = 2000) {
       setTimeout(openPaywall, 400);
     }
   }
+
+  // ── Library sync (stars + saves) ──
+  await loadLibrary();
+  // Hook into the sidebar to render "My Library" folder
+  renderLibrarySidebar();
+  // Re-render the sidebar whenever categories refresh
+  const origRenderSidebar = window.renderSidebar;
+  // We don't have direct access to renderSidebar inside the IIFE, so we observe DOM mutations:
+  const navEl = document.getElementById("nav");
+  if (navEl) {
+    const observer = new MutationObserver(() => renderLibrarySidebar());
+    observer.observe(navEl, { childList: true });
+  }
 })();
+
+// ── Library: local cache + Supabase sync ──
+let LIBRARY = []; // [{ id, effect_id, name, edits, created_at }]
+window.__savedEditsBuffer = {}; // effect_id -> edits (for pre-loading when re-opening)
+
+async function loadLibrary() {
+  const { data, error } = await sb
+    .from("saves")
+    .select("id, effect_id, name, edits, created_at")
+    .order("created_at", { ascending: false });
+  if (error) { console.warn("loadLibrary failed", error); return; }
+  LIBRARY = data || [];
+}
+
+window.__isStarred = function(effectId) {
+  return LIBRARY.some(l => l.effect_id === effectId && l.name === "★ Starred");
+};
+
+window.__libToggleStar = async function(item) {
+  const existing = LIBRARY.find(l => l.effect_id === item.id && l.name === "★ Starred");
+  if (existing) {
+    const { error } = await sb.from("saves").delete().eq("id", existing.id);
+    if (!error) LIBRARY = LIBRARY.filter(l => l.id !== existing.id);
+  } else {
+    const session = await getSession();
+    if (!session) return;
+    const { data, error } = await sb.from("saves").insert({
+      user_id: session.user.id,
+      effect_id: item.id,
+      name: "★ Starred",
+      edits: {}
+    }).select().single();
+    if (!error && data) LIBRARY.unshift(data);
+  }
+  renderLibrarySidebar();
+};
+
+window.__libOpenSaveDialog = function(item, edits) {
+  const dlg = document.getElementById("saveDialog");
+  const name = document.getElementById("sdName");
+  dlg.classList.add("open");
+  dlg.setAttribute("aria-hidden", "false");
+  const defaultName = `${item.name} — custom`;
+  name.value = defaultName;
+  setTimeout(() => { name.focus(); name.select(); }, 50);
+
+  const onCancel = () => close();
+  const onOk = async () => {
+    const n = name.value.trim() || defaultName;
+    const session = await getSession();
+    if (!session) return;
+    const { data, error } = await sb.from("saves").insert({
+      user_id: session.user.id,
+      effect_id: item.id,
+      name: n,
+      edits: edits || {}
+    }).select().single();
+    if (!error && data) {
+      LIBRARY.unshift(data);
+      renderLibrarySidebar();
+      showToast("Saved to My Library");
+    }
+    close();
+  };
+  function close() {
+    dlg.classList.remove("open");
+    dlg.setAttribute("aria-hidden", "true");
+    document.getElementById("sdCancel").removeEventListener("click", onCancel);
+    document.getElementById("sdOk").removeEventListener("click", onOk);
+  }
+  document.getElementById("sdCancel").addEventListener("click", onCancel);
+  document.getElementById("sdOk").addEventListener("click", onOk);
+};
+
+async function libraryDelete(saveId) {
+  const { error } = await sb.from("saves").delete().eq("id", saveId);
+  if (!error) {
+    LIBRARY = LIBRARY.filter(l => l.id !== saveId);
+    renderLibrarySidebar();
+  }
+}
+
+// Render "My Library" folder in the sidebar — inserted at top of nav.
+function renderLibrarySidebar() {
+  const navEl = document.getElementById("nav");
+  if (!navEl) return;
+
+  // Remove any existing library folder first (so re-renders don't stack)
+  navEl.querySelectorAll(".lib-folder").forEach(el => el.remove());
+
+  const folder = document.createElement("div");
+  const openFolders = JSON.parse(localStorage.getItem("elemek-folders") || "{}");
+  const isOpen = openFolders["library"] !== false;
+  folder.className = `nav-folder lib-folder ${isOpen ? "open" : ""}`;
+  folder.dataset.folder = "library";
+  folder.innerHTML = `
+    <div class="nav-folder-head" data-toggle="library">
+      <span class="nav-folder-ico">★</span>
+      <span class="nav-folder-label">My Library</span>
+      <span class="nav-folder-meta"><span class="nav-count">${LIBRARY.length}</span><span class="nav-chev">›</span></span>
+    </div>
+    <div class="nav-folder-body"><div class="lib-body-inner"></div></div>
+  `;
+
+  const body = folder.querySelector(".lib-body-inner");
+  if (LIBRARY.length === 0) {
+    body.innerHTML = `<div class="lib-empty">Star or save something to see it here.</div>`;
+  } else {
+    LIBRARY.forEach(entry => {
+      const row = document.createElement("div");
+      row.className = "lib-item";
+      row.innerHTML = `
+        <span class="lib-item-name" title="${escHtml(entry.name)}">${escHtml(entry.name)}</span>
+        <button class="lib-del" title="Delete">✕</button>
+      `;
+      row.addEventListener("click", (e) => {
+        if (e.target.closest(".lib-del")) return;
+        openLibraryEntry(entry);
+      });
+      row.querySelector(".lib-del").addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (confirm(`Delete "${entry.name}"?`)) libraryDelete(entry.id);
+      });
+      body.appendChild(row);
+    });
+  }
+
+  // Folder toggle — match existing pattern with open class
+  folder.querySelector("[data-toggle]").addEventListener("click", () => {
+    const folders = JSON.parse(localStorage.getItem("elemek-folders") || "{}");
+    folders["library"] = !folder.classList.contains("open");
+    localStorage.setItem("elemek-folders", JSON.stringify(folders));
+    folder.classList.toggle("open");
+  });
+
+  // Insert at top of nav
+  navEl.insertBefore(folder, navEl.firstChild);
+}
+
+function openLibraryEntry(entry) {
+  // Find the animation item in the global ANIM_DATA
+  const all = Object.values(window.ANIM_DATA || {}).flat();
+  const item = all.find(x => x && x.id === entry.effect_id);
+  if (!item) { showToast("Animation not found"); return; }
+  if (window.__openDrawer) window.__openDrawer(item, item.id.toUpperCase(), entry.edits || {});
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
 </script>
 
 </body>
