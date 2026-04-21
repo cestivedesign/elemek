@@ -6326,7 +6326,217 @@ window.ANIM_DATA = {
           selector:".mb-12 .nav .logo" },
         menubarLabels(["Work","Studio","Contact"]),
       ]
-    }
+    },
+
+    // ── Menu reveals ──
+    "mr-01": {
+      selectors: { items: ".mr-01 .items > .item" },
+      fields: [
+        { type:"textList", key:"items", label:"Menu items", default:["BRAND","WEB","MOTION","PRODUCT"], max:8 },
+        { type:"text", key:"previewLabel", label:"Preview label", default:"PREVIEW · BRAND", selector:".mr-01 .p-label" },
+        { type:"color", key:"accent", label:"Active color", default:"#a88bff",
+          css:"{scope} .mr-01 .item.active, {scope} .mr-01 .item:hover { color: {value} !important; }" },
+      ]
+    },
+    "mr-02": {
+      fields: [
+        { type:"text", key:"q1",  label:"Quote 1",   default:"\"Sharp work. On time.\"",          selector:".mr-02 .q:nth-child(1) .q-text" },
+        { type:"text", key:"w1",  label:"Author 1",  default:"— MAYA R. · NORTHLINE",              selector:".mr-02 .q:nth-child(1) .q-who" },
+        { type:"text", key:"q2",  label:"Quote 2",   default:"\"Made our site feel alive.\"",      selector:".mr-02 .q:nth-child(2) .q-text" },
+        { type:"text", key:"w2",  label:"Author 2",  default:"— J. OKONKWO · RIVUS",               selector:".mr-02 .q:nth-child(2) .q-who" },
+        { type:"text", key:"q3",  label:"Quote 3",   default:"\"The detail is wild.\"",            selector:".mr-02 .q:nth-child(3) .q-text" },
+        { type:"text", key:"w3",  label:"Author 3",  default:"— S. ANDERS · COSMO",                selector:".mr-02 .q:nth-child(3) .q-who" },
+      ]
+    },
+    "mr-03": {
+      fields: [
+        { type:"text", key:"r1", label:"Row 1 label", default:"Brand identity", selector:".mr-03 .row:nth-child(1) .r-text" },
+        { type:"text", key:"s1", label:"Row 1 sub",   default:"LOGO · GUIDES",  selector:".mr-03 .row:nth-child(1) .r-sub" },
+        { type:"text", key:"r2", label:"Row 2 label", default:"Web design",     selector:".mr-03 .row:nth-child(2) .r-text" },
+        { type:"text", key:"s2", label:"Row 2 sub",   default:"MARKETING · SAAS", selector:".mr-03 .row:nth-child(2) .r-sub" },
+        { type:"text", key:"r3", label:"Row 3 label", default:"Motion",         selector:".mr-03 .row:nth-child(3) .r-text" },
+        { type:"text", key:"s3", label:"Row 3 sub",   default:"VIDEO · MICRO",  selector:".mr-03 .row:nth-child(3) .r-sub" },
+        { type:"text", key:"r4", label:"Row 4 label", default:"Product",        selector:".mr-03 .row:nth-child(4) .r-text" },
+        { type:"text", key:"s4", label:"Row 4 sub",   default:"UX · UI",        selector:".mr-03 .row:nth-child(4) .r-sub" },
+        { type:"color", key:"icBg", label:"Icon color", default:"#a88bff",
+          css:"{scope} .mr-03 .ic { background: {value} !important; }" },
+      ]
+    },
+    "mr-04": {
+      fields: [
+        { type:"text", key:"meta1", label:"Meta left", default:"SHOWREEL · 02:14", selector:".mr-04 .meta span:first-child" },
+        { type:"text", key:"meta2", label:"Meta right", default:"2026", selector:".mr-04 .meta span:last-child" },
+      ]
+    },
+    "mr-06": {
+      fields: [
+        { type:"text", key:"t1", label:"Step 1 title", default:"01 · Discover", selector:".mr-06 .s:nth-child(1) .t" },
+        { type:"text", key:"b1", label:"Step 1 range", default:"WEEK 1–2",      selector:".mr-06 .s:nth-child(1) .b" },
+        { type:"text", key:"t2", label:"Step 2 title", default:"02 · Design",   selector:".mr-06 .s:nth-child(2) .t" },
+        { type:"text", key:"b2", label:"Step 2 range", default:"WEEK 3–6",      selector:".mr-06 .s:nth-child(2) .b" },
+        { type:"text", key:"t3", label:"Step 3 title", default:"03 · Deliver",  selector:".mr-06 .s:nth-child(3) .t" },
+        { type:"text", key:"b3", label:"Step 3 range", default:"WEEK 7–8",      selector:".mr-06 .s:nth-child(3) .b" },
+      ]
+    },
+    "mr-07": {
+      selectors: { items: ".mr-07 .nav > a" },
+      fields: [
+        menubarLabels(["Work","Ethos","Team"]),
+        { type:"text", key:"quote", label:"Quote", default:"We make things that feel inevitable.", selector:".mr-07 .bloom blockquote" },
+        { type:"text", key:"cite",  label:"Attribution", default:"— founding memo · 2026",          selector:".mr-07 .bloom cite" },
+        { type:"color", key:"accent", label:"Accent", default:"#a88bff",
+          css:"{scope} .mr-07 .nav a.active { color: {value} !important; } {scope} .mr-07 .chip { background: {value} !important; }" },
+      ]
+    },
+    "mr-08": {
+      selectors: { items: ".mr-08 .nav > a" },
+      fields: [
+        menubarLabels(["Work","Studio","Journal"]),
+      ]
+    },
+    "mr-09": {
+      selectors: { items: ".mr-09 .nav > a" },
+      fields: [
+        menubarLabels(["Work","Studio","Contact"]),
+        { type:"text", key:"eyebrow", label:"Eyebrow",  default:"// 02 STUDIO",          selector:".mr-09 .eb" },
+        { type:"text", key:"heading", label:"Heading",  default:"A place of noticing.",   selector:".mr-09 .h" },
+      ]
+    },
+    "mr-10": {
+      selectors: {
+        items: ".mr-10 .nav > a",
+        list:  ".mr-10 .list > li"
+      },
+      fields: [
+        menubarLabels(["Work","Studio","Journal"]),
+        { type:"textList", key:"list", label:"List items",
+          default:["A season in blue","On noticing","Type as place","Studio rituals","Year-end letter"],
+          max:8 }
+      ]
+    },
+    "mr-11": {
+      selectors: { items: ".mr-11 .nav > a" },
+      fields: [
+        menubarLabels(["Work","Showreel","Contact"]),
+        { type:"text", key:"meta", label:"Meta text", default:"STUDIO REEL · 02:17", selector:".mr-11 .video .meta" },
+      ]
+    },
+
+    // ── Buttons ──
+    "bt-01": {
+      fields: [
+        { type:"text", key:"label", label:"Label", default:"Get in touch →", selector:".bt-01" },
+        { type:"color", key:"c1", label:"Gradient start", default:"#a88bff",
+          css:"{scope} .bt-01 { background-image: linear-gradient(135deg, {value}, oklch(0.78 0.14 220)) !important; }" },
+      ]
+    },
+    "bt-02": {
+      fields: [
+        { type:"text", key:"label", label:"Label", default:"Start Project", selector:".bt-02" },
+      ]
+    },
+    "bt-03": {
+      fields: [
+        { type:"text", key:"label", label:"Label", default:"Hover me",
+          selector:".bt-03", preserveChildren:true },
+        { type:"color", key:"stroke", label:"Border color", default:"#a88bff",
+          css:"{scope} .bt-03 rect { stroke: {value} !important; }" },
+      ]
+    },
+    "bt-04": {
+      fields: [
+        { type:"text", key:"label", label:"Label", default:"View case", selector:".bt-04 .txt" },
+      ]
+    },
+    "bt-05": {
+      fields: [
+        { type:"text", key:"label", label:"Label", default:"Press me", selector:".bt-05" },
+      ]
+    },
+    "bt-06": {
+      fields: [
+        { type:"text", key:"label", label:"Label", default:"Say hello", selector:".bt-06" },
+        { type:"color", key:"fill", label:"Fill color", default:"#a88bff",
+          css:"{scope} .bt-06::before { background: {value} !important; }" },
+      ]
+    },
+    "bt-07": {
+      fields: [
+        { type:"text", key:"label", label:"Label", default:"Get in touch", selector:".bt-07" },
+      ]
+    },
+    "bt-09": {
+      fields: [
+        { type:"text", key:"label", label:"Label", default:"View work", selector:".bt-09 > span:first-child" },
+      ]
+    },
+    "bt-10": {
+      fields: [
+        { type:"text", key:"label", label:"Label", default:"Read the journal", selector:".bt-10" },
+      ]
+    },
+    "bt-11": {
+      fields: [
+        { type:"text", key:"label1", label:"Front label", default:"Request access", selector:".bt-11 .a" },
+        { type:"text", key:"label2", label:"Hover label", default:"Say hello →",    selector:".bt-11 .b" },
+      ]
+    },
+    "bt-12": {
+      fields: [
+        { type:"text", key:"label", label:"Label", default:"Subscribe", selector:".bt-12 span:last-child" },
+      ]
+    },
+    "bt-13": {
+      fields: [
+        { type:"text", key:"label", label:"Label", default:"Continue", selector:".bt-13" },
+      ]
+    },
+    "bt-14": {
+      fields: [
+        { type:"text", key:"label", label:"Label", default:"Hold to confirm", selector:".bt-14 span" },
+      ]
+    },
+
+    // ── Cursors ──
+    "cu-01": {
+      fields: [
+        { type:"text", key:"bg", label:"Background text", default:"MOVE YOUR CURSOR", selector:".cu-01 .bg" },
+        { type:"color", key:"dot", label:"Dot color", default:"#a88bff",
+          css:"{scope} .cu-01 .dot { background: {value} !important; box-shadow: 0 0 12px {value}; }" },
+        { type:"color", key:"ring", label:"Ring color", default:"#a88bff",
+          css:"{scope} .cu-01 .ring { border-color: {value} !important; }" },
+      ]
+    },
+    "cu-02": {
+      fields: [
+        { type:"color", key:"lens", label:"Lens border", default:"#a88bff",
+          css:"{scope} .cu-02 .lens { border-color: {value} !important; }" },
+      ]
+    },
+    "cu-03": {
+      fields: [
+        { type:"text", key:"bg", label:"Background text", default:"HOVER — LABEL FOLLOWS", selector:".cu-03 .bg" },
+        { type:"text", key:"lab", label:"Follow label", default:"VIEW CASE →", selector:".cu-03 .lab" },
+        { type:"color", key:"labBg", label:"Label color", default:"#a88bff",
+          css:"{scope} .cu-03 .lab { background: {value} !important; color: #000 !important; }" },
+      ]
+    },
+    "cu-06": {
+      fields: [
+        { type:"text", key:"bg", label:"Hidden text (reveal)", default:"HIDDEN", selector:".cu-06 .hidden" },
+      ]
+    },
+    "cu-07": {
+      fields: [
+        { type:"color", key:"spot", label:"Spotlight color", default:"#a88bff",
+          css:"{scope} .cu-07 { --cu07-color: {value}; }" },
+      ]
+    },
+    "cu-09": {
+      fields: [
+        { type:"text", key:"bg", label:"Background text", default:"ELEMENTR STUDIO · 2026", selector:".cu-09 .bg" },
+      ]
+    },
   };
   window.EDITABLE_META = EDITABLE_META;
 
@@ -6355,7 +6565,19 @@ window.ANIM_DATA = {
 
       if (f.type === "text") {
         const target = stageEl.querySelector(f.selector);
-        if (target) target.textContent = val;
+        if (target) {
+          if (f.preserveChildren) {
+            // Replace only the first direct text node so children (e.g. SVG) survive
+            for (const node of Array.from(target.childNodes)) {
+              if (node.nodeType === 3) {
+                node.nodeValue = val + (node.nodeValue.match(/\s+$/) ? " " : "");
+                break;
+              }
+            }
+          } else {
+            target.textContent = val;
+          }
+        }
       } else if (f.type === "textList") {
         const sel = (meta.selectors && meta.selectors[f.key]) || f.selector;
         const targets = stageEl.querySelectorAll(sel);
