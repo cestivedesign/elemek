@@ -175,7 +175,15 @@ h1 {
         <label for="email">Email</label>
         <input type="email" id="email" required placeholder="you@example.com" autocomplete="email">
       </div>
-      <button class="btn primary" type="submit" id="emailBtn">Send magic link</button>
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" required placeholder="••••••••" autocomplete="current-password" minlength="6">
+      </div>
+      <button class="btn primary" type="submit" id="emailBtn">Sign in</button>
+      <div style="display:flex;justify-content:space-between;margin-top:10px;font-size:12.5px">
+        <button type="button" id="toggleMode" style="background:none;border:none;color:var(--fg-1);padding:0;cursor:pointer;text-decoration:underline;font-family:inherit">Create an account</button>
+        <button type="button" id="forgotBtn" style="background:none;border:none;color:var(--fg-2);padding:0;cursor:pointer;font-family:inherit">Forgot password</button>
+      </div>
     </form>
 
     <div class="msg err" id="errMsg"></div>
@@ -213,17 +221,71 @@ const ok  = document.getElementById("okMsg");
 function showErr(m) { err.textContent = m; err.classList.add("show"); ok.classList.remove("show"); }
 function showOk(m)  { ok.textContent = m; ok.classList.add("show"); err.classList.remove("show"); }
 
-// Email magic link
+// Email + password auth
+let mode = "signin"; // or "signup"
+const toggle = document.getElementById("toggleMode");
+const emailBtn = document.getElementById("emailBtn");
+const forgotBtn = document.getElementById("forgotBtn");
+
+function setMode(m) {
+  mode = m;
+  emailBtn.textContent = mode === "signin" ? "Sign in" : "Create account";
+  toggle.textContent = mode === "signin" ? "Create an account" : "Back to sign in";
+  document.querySelector('h1').textContent = mode === "signin" ? "Welcome back" : "Create account";
+  err.classList.remove("show"); ok.classList.remove("show");
+}
+toggle.addEventListener("click", () => setMode(mode === "signin" ? "signup" : "signin"));
+
 document.getElementById("form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const email = document.getElementById("email").value.trim();
-  const btn = document.getElementById("emailBtn");
-  if (!email) return;
-  btn.disabled = true; btn.textContent = "Sending…";
-  const { error } = await signInWithEmail(email);
-  btn.disabled = false; btn.textContent = "Send magic link";
-  if (error) showErr(error.message || "Something went wrong.");
-  else showOk("Check your inbox — we sent you a link to sign in.");
+  const password = document.getElementById("password").value;
+  if (!email || !password) return;
+  emailBtn.disabled = true;
+  emailBtn.textContent = mode === "signin" ? "Signing in…" : "Creating…";
+
+  let result;
+  if (mode === "signin") {
+    result = await sb.auth.signInWithPassword({ email, password });
+  } else {
+    result = await sb.auth.signUp({
+      email, password,
+      options: { emailRedirectTo: `${location.origin}/auth/callback.html` }
+    });
+  }
+  emailBtn.disabled = false;
+  emailBtn.textContent = mode === "signin" ? "Sign in" : "Create account";
+
+  if (result.error) {
+    showErr(result.error.message || "Something went wrong.");
+    return;
+  }
+
+  if (mode === "signup" && !result.data.session) {
+    showOk("Check your inbox to confirm your email, then sign in.");
+    return;
+  }
+
+  // Signed in — redirect
+  const next = new URLSearchParams(location.search).get("next") || "/app/";
+  const intentPlan = sessionStorage.getItem("elementr-intent-plan");
+  sessionStorage.removeItem("elementr-intent-plan");
+  if (intentPlan === "monthly" || intentPlan === "forever") {
+    location.href = `/app/?checkout=${intentPlan}`;
+  } else {
+    location.href = next;
+  }
+});
+
+// Forgot password — send a reset link
+forgotBtn.addEventListener("click", async () => {
+  const email = document.getElementById("email").value.trim();
+  if (!email) { showErr("Enter your email first."); return; }
+  const { error } = await sb.auth.resetPasswordForEmail(email, {
+    redirectTo: `${location.origin}/auth/callback.html`
+  });
+  if (error) showErr(error.message);
+  else showOk("Password reset link sent to your inbox.");
 });
 
 // Google OAuth
